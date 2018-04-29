@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>D3 Test</title>
+        <script type="text/javascript" src="d3/d3.v4.min.js"></script>
+        <style type="text/css">
+        path {
+            fill: none;
+            stroke: #aaa;
+        }
+        .axis path,
+        .axis line {
+            fill: none;
+            stroke: black;
+            shape-rendering: crispEdges;
+        }
+        .axis text {
+            font-family: sans-serif;
+            font-size: 11px;
+        }
+        .grid line {
+          stroke: lightgrey;
+          stroke-opacity: 0.7;
+          shape-rendering: crispEdges;
+        }
+        .grid path {
+          stroke-width: 0;
+        }
+        </style>
+    </head>
+    <body>
+        <script>
+                var w = 800;
+                var h = 500;
+                var p = 50;
+
+                var dataSet = [[0, 50], [100, 80], [200, 40], [300, 60], [400, 30], [480, 60], [500, 90], [550, 10]];
+
+                // create xScale
+                var xScale = d3.scaleLinear()
+                  .domain([0, d3.max(dataSet, function (d) { return d[0]; })])
+                  .range([p, w - 15]);
+
+                // create yScale
+                var yScale = d3.scaleLinear()
+                  .domain([0, d3.max(dataSet, function (d) { return d[1]; })])
+                  .range([h - p, 15]);
+
+                // create SVG
+                var svg = d3.select("body")
+                  .append("svg")
+                  .attr("width", w)
+                  .attr("height", h);
+
+                // create xAxis
+                svg.append("g")
+                  .attr("class", "axis")
+                  .attr("transform", "translate(0," + (h - p) + ")")
+                  .call(d3.axisBottom(xScale));
+
+                // create yAxis
+                svg.append("g")
+                  .attr("class", "axis")
+                  .attr("transform", "translate(" + p + ", 0)")
+                  .call(d3.axisLeft(yScale));
+
+                //d3 line generator
+                var line = d3.line()
+                  .x(function (d) { return xScale(d[0]) })
+                  .y(function (d) { return yScale(d[1]) })
+
+                svg.append("path")
+                  .datum(dataSet) // Binds data to the line 
+                  .attr("class", "line") // Assign a class for styling 
+                  .attr("d", line); // Calls the line generator
+
+                svg.append("text")
+                  .text("Time")
+                  .attr("transform", "translate(" + (w / 2) + "," + h + ")")
+
+
+                svg.append("text")
+                  .text("Pulse")
+                  .attr("transform", "rotate(-90)")
+                  .attr("x", - (h / 2))
+                  .attr("y", 20)
+
+                function make_x_gridlines() {
+                  return d3.axisBottom(xScale)
+                  //.ticks(5)
+                }
+
+                // add the X gridlines
+                svg.append("g")
+                  .attr("class", "grid")
+                  .attr("transform", "translate(0," + (h - p) + ")")
+                  .attr("y", p)
+                  .call(make_x_gridlines()
+                    .tickSize(-h)
+                    .tickFormat("")
+                  )
+
+                function make_y_gridlines() {
+                  return d3.axisLeft(yScale)
+                  //.ticks(5)
+                }
+
+                // add the Y gridlines
+                svg.append("g")
+                  .attr("class", "grid")
+                  .attr("transform", "translate(30, 0)")
+                  .call(make_y_gridlines()
+                    .tickSize(-w)
+                    .tickFormat("")
+                  )
+
+            </script>
+    </body>
+</html>  

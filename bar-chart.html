@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>D3 Test</title>
+        <script type="text/javascript" src="d3/d3.v4.min.js"></script>
+        <style type="text/css">
+        path {
+            fill: none;
+            stroke: #aaa;
+        }
+        .axis path,
+        .axis line {
+            fill: none;
+            stroke: black;
+            shape-rendering: crispEdges;
+        }
+
+        .axis text {
+            font-family: sans-serif;
+            font-size: 11px;
+        }
+
+        .bar {
+          fill: steelblue;
+        }
+
+        </style>
+    </head>
+    <body>
+        <script>
+                var w = 800;
+                var h = 500;
+                var p = 50;
+
+                var dataSet = [[0, 50], [50, 30],[100, 80], [200, 40], [250, 85], [300, 60], [400, 30], [480, 60], [500, 90], [550, 10]];
+
+                var xScale = d3.scaleLinear()
+                  .domain([0, d3.max(dataSet, function (d) { return d[0]; })])
+                  .range([p, w - p]);
+
+
+                var yScale = d3.scaleLinear()
+                  .domain([0, d3.max(dataSet, function (d) { return d[1]; })])
+                  .range([h - p, p]);
+
+                var svg = d3.select("body")
+                  .append("svg")
+                  .attr("width", w)
+                  .attr("height", h);
+
+
+                svg.selectAll(".bar")
+                  .data(dataSet)
+                  .enter().append("rect")
+                  .attr("class", "bar")
+                  .attr("x", function(d) { return xScale(d[0]); })
+                  .attr("y", function(d) { return yScale(d[1]); })
+                  .attr("width", 20)
+                  .attr("height", function(d) { return  ((h-p) - yScale(d[1])); })
+
+                svg.append("g")
+                  .attr("class", "axis")
+                  .attr("transform", "translate(10," + (h - p) + ")")
+                  .call(d3.axisBottom(xScale));
+
+                svg.append("g")
+                  .attr("class", "axis")
+                  .attr("transform", "translate(" + p + ", 0)")
+                  .call(d3.axisLeft(yScale));
+
+                svg.append("text")
+                  .text("Time")
+                  .attr("transform", "translate(" + (w / 2) + "," + h + ")")
+
+                svg.append("text")
+                  .text("Pulse")
+                  .attr("transform", "rotate(-90)")
+                  .attr("x", - (h / 2))
+                  .attr("y", 20)
+
+            </script>
+    </body>
+</html>  
