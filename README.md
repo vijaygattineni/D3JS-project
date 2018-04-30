@@ -1,7 +1,10 @@
 # D3js-project
-D3 charts
-Data visualization
-* Line Chart
+D3 charts | Data visualization
+* Simple Area
 * Bar Chart
-* Scatter plot/ Bubble chart
-* Donut Chart
+* Bubble/ Scatter Chart
+* Pie | Donut Chart
+* Line Chart 
+* Linking Nodes
+* Simple Bars
+* Simple Line
