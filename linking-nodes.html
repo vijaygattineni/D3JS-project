@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>D3 Test</title>
+        <script type="text/javascript" src="d3/d3.v4.min.js"></script>
+      <style type="text/css">
+        path {
+            fill: none;
+            stroke: black;
+        }
+      </style>
+    </head>
+    <body>
+    
+    <svg width="600" height="100" style="padding: 30px;">
+        <path transform="translate(0, 0)" />
+    </svg>
+        <script>
+        var data = [[0, 80], [300, 80]];
+        //for line above data will be [ <x1,y1> , <x2, y2 > ];
+        var lineGenerator = d3.line();
+        var pathString = lineGenerator(data);
+
+        console.log(pathString);
+        d3.select('path')
+            .attr('d', pathString);
+
+        d3.select('svg').append('circle')
+        .attr('cx', 0)
+        .attr('cy', 80)
+        .attr('r', 30)
+        .style('fill', 'yellowgreen')
+
+
+        d3.select('svg').append('circle')
+        .attr('cx', 300)
+        .attr('cy', 80)
+        .attr('r', 30)
+        .style('fill', 'yellowgreen')
+
+
+
+            </script>
+    </body>
+</html>  
