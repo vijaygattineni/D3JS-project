@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>D3 Test</title>
+        <script type="text/javascript" src="d3/d3.v4.min.js"></script>
+        <style type="text/css">
+        </style>
+    </head>
+<body>  <script>
+
+    var w = 800;
+    var h = 500;
+    
+    var arc = d3.arc()
+      .innerRadius(100)
+      .outerRadius(200)
+      .cornerRadius(0)
+
+    var svg = d3.select("body")
+        .append("svg")
+        .attr("width", w)
+        .attr("height", h);
+
+
+    g = svg.append("g")
+      .attr("transform", "translate(" + w / 2 + "," + h / 2 +")")
+    
+    var data = [{color: 'lightgreen', type:'classA', number: 30}, {color: 'antiquewhite', type:'classB', number: 10}, {color: 'deepskyblue', type:'classC', number: 70}, {color: 'darkturquoise', type:'classD', number: 50}];
+
+    var arcs = d3.pie()
+    .startAngle(-0.5 * Math.PI)
+    .endAngle(0.5 * Math.PI).value(function(d) { return d.number; })(data);
+    
+    var arcPath = g.selectAll("path")
+        .data(arcs)
+        .enter()
+        .append("path")
+        .style("fill", function(d,i){ return d.data.color;})
+        .attr("d", arc)
+    
+  </script>
+</body>
+
+</html>  
