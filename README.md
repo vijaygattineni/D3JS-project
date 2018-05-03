@@ -1,28 +1,31 @@
 # D3js-project
 D3 charts | Data visualization
-* Simple Area
-![Alt text](/chart-Images/area.png?raw=true "Optional Title")
-
-* Bar Chart
-![Alt text](/chart-Images/bar.png?raw=true "Optional Title")
-
-* Bubble/ Scatter Chart
-![Alt text](/chart-Images/bubble.png?raw=true "Optional Title")
-
-* Donut Chart
-![Alt text](/chart-Images/donut.png?raw=true "Optional Title")
-
-* Semi-Donut Chart
-![Alt text](/chart-Images/semi-donut.png?raw=true "Optional Title")
-
-* Line Chart
-![Alt text](/chart-Images/line.png?raw=true "Optional Title")
-
 * Linking Nodes
-![Alt text](/chart-Images/link.png?raw=true "Optional Title")
+![Linking Nodes](/chart-Images/link.png?raw=true "Linking Nodes")
 
 * Simple Bars
-![Alt text](/chart-Images/simple-bar.png?raw=true "Optional Title")
+![Simple Bars](/chart-Images/simple-bar.png?raw=true "Simple Bars")
 
 * Simple Line
-![Alt text](/chart-Images/simple-line.png?raw=true "Optional Title")
+![Simple Line](/chart-Images/simple-line.png?raw=true "Simple Line")
+
+* Basic Zoom 
+![Zoom](/chart-Images/zoom-bubble.gif?raw=true "Basic Zoom")
+
+* Simple Area
+![Simple Area](/chart-Images/area.png?raw=true "Simple Area")
+
+* Bar Chart
+![Bar Chart](/chart-Images/bar.png?raw=true "Bar Chart")
+
+* Bubble/ Scatter Chart
+![Scatter Chart](/chart-Images/bubble.png?raw=true "Bubble/ Scatter Chart")
+
+* Donut Chart
+![Donut Chart](/chart-Images/donut.png?raw=true "Donut Chart")
+
+* Semi-Donut Chart
+![Semi-Donut Chart](/chart-Images/semi-donut.png?raw=true "Semi-Donut Chart")
+
+* Line Chart
+![Line Chart](/chart-Images/line.png?raw=true "Line Chart")
