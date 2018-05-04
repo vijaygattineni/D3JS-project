@@ -26,17 +26,29 @@
     g = svg.append("g")
       .attr("transform", "translate(" + w / 2 + "," + h / 2 +")")
     
-    var data = [{color: 'red', type:'classA', number: 30}, {color: 'yellow', type:'classB', number: 10}, {color: 'green', type:'classC', number: 70}, {color: 'blue', type:'classD', number: 50}];
+    var data = [{color: 'antiquewhite', type:'classA', number: 30}, {color: 'darkturquoise', type:'classB', number: 10}, {color: 'lightgreen', type:'classC', number: 70}, {color: 'deepskyblue', type:'classD', number: 50}];
 
     var arcs = d3.pie().value(function(d) { return d.number; })(data);
     
     var arcPath = g.selectAll("path")
         .data(arcs)
         .enter()
-        .append("path")
+    
+    arcPath.append("path")
         .style("fill", function(d,i){ return d.data.color;})
         .attr("d", arc)
+
+    arcPath.append("text")
+        .attr("transform", function(d) {
+        var _d = arc.centroid(d);
+        return "translate(" + _d + ")";
+      })
+      .text(function(d) { return d.data.number; });
     
+    arcPath.append("text")
+           .attr("text-anchor", "middle")
+            .text(d3.sum(data,function(d) { return d.number; }))
+
   </script>
 </body>
 

@@ -34,11 +34,23 @@
     
     var arcPath = g.selectAll("path")
         .data(arcs)
-        .enter()
-        .append("path")
+        .enter();
+    
+    arcPath.append("path")
         .style("fill", function(d,i){ return d.data.color;})
         .attr("d", arc)
+
+    arcPath.append("text")
+        .attr("transform", function(d) {
+        var _d = arc.centroid(d);
+        return "translate(" + _d + ")";
+      })
+      .text(function(d) { return d.data.number; });
     
+    arcPath.append("text")
+           .attr("text-anchor", "middle")
+           .text(d3.sum(data, function(d) { return d.number; }));
+
   </script>
 </body>
 
