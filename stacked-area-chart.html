@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>D3 Test</title>
+        <script type="text/javascript" src="d3/d3.v4.min.js"></script>
+        <style type="text/css">
+        .axis path,
+        .axis line {
+            fill: none;
+            stroke: black;
+            shape-rendering: crispEdges;
+        }
+        .axis text {
+            font-family: sans-serif;
+            font-size: 11px;
+        }
+        .grid line {
+          stroke: lightgrey;
+          stroke-opacity: 0.7;
+          shape-rendering: crispEdges;
+        }
+        </style>
+    </head>
+    <body>
+        <script>
+                var w = 800;
+                var h = 500;
+                var p = 50;
+
+                var dataSet = 
+                          [ 
+                            {
+                              "date": 1525564800000,
+                              "bytesSent": 90,
+                              "bytesReceive": 10,
+                              "bytesSum": 100
+                            },
+                            {
+                              "date": 1525651200000,
+                              "bytesSent": 41,
+                              "bytesReceive": 71,
+                              "bytesSum": 112
+                            },
+                            {
+                              "date": 1525737600000,
+                              "bytesSent": 66,
+                              "bytesReceive": 33,
+                              "bytesSum": 99
+                            },
+                            {
+                              "date": 1525824000000,
+                              "bytesSent": 4,
+                              "bytesReceive": 31,
+                              "bytesSum": 35
+                            },
+                            {
+                              "date": 1525910400000,
+                              "bytesSent": 33,
+                              "bytesReceive": 40,
+                              "bytesSum": 73
+                            },
+                            {
+                              "date": 1525996800000,
+                              "bytesSent": 2,
+                              "bytesReceive": 11,
+                              "bytesSum": 13
+                            }
+                          ];
+
+
+                // create xScale
+                var xScale = d3.scaleTime()
+                    .domain(d3.extent(dataSet, function(d) { return d.date; }))
+                    .range([p, w - 15]);
+
+                // create yScale
+                var yScale = d3.scaleLinear()
+                  .domain([0, d3.max(dataSet, function (d) { return d.bytesSum; })])
+                  .range([h-p , 0]);
+
+                // create SVG
+                var svg = d3.select("body")
+                  .append("svg")
+                  .attr("width", w)
+                  .attr("height", h);
+
+                // create xAxis
+                svg.append("g")
+                  .attr("class", "axis")
+                  .attr("transform", "translate(0," + (h - p) + ")")
+                  .call(d3.axisBottom(xScale).tickFormat(d3.timeFormat("%d-%b")));
+
+                // create yAxis
+                svg.append("g")
+                  .attr("class", "axis")
+                  .attr("transform", "translate(" + (p-5) + ", 0)")
+                  .call(d3.axisLeft(yScale));
+
+                // area generator
+                var area = d3.area()
+                    .x(function(d, i) { return xScale(d.data.date); })
+                    .y0(function(d) { return yScale(d[0]); })
+                    .y1(function(d) { return yScale(d[1]); })
+                    .curve(d3.curveCatmullRom.alpha(0.5));
+
+                var stack = d3.stack().keys(['bytesSent', 'bytesReceive']);
+                var stackedSeries = stack(dataSet);
+
+                //creating paths
+                var area = svg.append('g').selectAll('path')
+                      .data(stackedSeries)
+                      .enter()
+                      .append('g')
+                      .append('path')
+                      .style('fill', function(d) { return d.key === 'bytesSent' ? '#00edfc': '#00b4e8';  })
+                      .attr('d', area)
+
+            </script>
+    </body>
+</html>  
