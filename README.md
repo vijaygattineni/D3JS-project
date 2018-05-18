@@ -15,6 +15,9 @@ D3 charts | Data visualization
 * Simple Area
 ![Simple Area](/chart-Images/area.png?raw=true "Simple Area")
 
+* Stacked Area
+![Simple Area](/chart-Images/stacked-area.png?raw=true "Stacked Area")
+
 * Bar Chart
 ![Bar Chart](/chart-Images/bar.png?raw=true "Bar Chart")
 
@@ -28,4 +31,4 @@ D3 charts | Data visualization
 ![Semi-Donut Chart](/chart-Images/semi-donut.png?raw=true "Semi-Donut Chart")
 
 * Line Chart
-![Line Chart](/chart-Images/line.png?raw=true "Line Chart")
+![Line Chart](/chart-Images/line-chart.png?raw=true "Line Chart")
