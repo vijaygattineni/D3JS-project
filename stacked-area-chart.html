@@ -4,6 +4,7 @@
         <meta charset="utf-8">
         <title>D3 Test</title>
         <script type="text/javascript" src="d3/d3.v4.min.js"></script>
+        <script type="text/javascript" src="underscore.js"></script>
         <style type="text/css">
         .axis path,
         .axis line {
@@ -20,13 +21,70 @@
           stroke-opacity: 0.7;
           shape-rendering: crispEdges;
         }
+        .tool-tip {
+          position:absolute;
+          z-index:10;
+          visibility:hidden;
+          background-color: white;
+          color: black;
+          border-radius: 5px;
+          font-size: 12px;
+          font-family: "Source Sans Pro", sans-serif;
+          pointer-events: none;
+          border: solid 1px;
+        }
+        .ttip-div {
+          padding: 5px;
+          width: 70px;
+        }
+
+        .dot {
+            /* consider the stroke-with the mouse detect radius? */
+            stroke: transparent;
+            stroke-width: 10px;  
+            cursor: pointer;
+          }
+           
+          .dot:hover {
+            stroke: rgba(68, 127, 255, 0.3);
+          }
         </style>
     </head>
     <body>
+        <div id="stacked-area-chart">
+            <div class="tool-tip">
+              <table>
+                  <tr>
+                      <td class="ttip-div ttip-date" colspan="2">
+                      May 01
+                      </td>
+                  </tr>
+                  <tr> 
+                      <td class="ttip-div">
+                        <span style="background-color: #00b4e8;width: 12px;height: 12px;display:inline-block"></span>
+                        Received 
+                      </td>
+                      <td class="ttip-div ttip-received">
+                        90
+                      </td>
+                  </tr>
+                  <tr> 
+                      <td class="ttip-div">
+                        <span style="background-color: #00edfc;width: 12px;height: 12px;display:inline-block"></span>
+                        Sent 
+                      </td>
+                      <td class="ttip-div ttip-sent">
+                        90
+                      </td>
+                  </tr>
+                </table>
+            </div>
+        </div>
         <script>
-                var w = 800;
-                var h = 500;
-                var p = 50;
+
+                var margin = {top: 20, right: 30, bottom: 30, left: 40},
+                    width = 800 - margin.left - margin.right,
+                    height = 500 - margin.top - margin.bottom;
 
                 var dataSet = 
                           [ 
@@ -67,55 +125,131 @@
                               "bytesSum": 13
                             }
                           ];
-
+                var dataPoints = {};
 
                 // create xScale
                 var xScale = d3.scaleTime()
                     .domain(d3.extent(dataSet, function(d) { return d.date; }))
-                    .range([p, w - 15]);
+                    .range([0, width]);
 
                 // create yScale
                 var yScale = d3.scaleLinear()
                   .domain([0, d3.max(dataSet, function (d) { return d.bytesSum; })])
-                  .range([h-p , 0]);
+                  .range([height, 0]);
+
 
                 // create SVG
-                var svg = d3.select("body")
-                  .append("svg")
-                  .attr("width", w)
-                  .attr("height", h);
-
-                // create xAxis
-                svg.append("g")
-                  .attr("class", "axis")
-                  .attr("transform", "translate(0," + (h - p) + ")")
-                  .call(d3.axisBottom(xScale).tickFormat(d3.timeFormat("%d-%b")));
-
-                // create yAxis
-                svg.append("g")
-                  .attr("class", "axis")
-                  .attr("transform", "translate(" + (p-5) + ", 0)")
-                  .call(d3.axisLeft(yScale));
+                var chart = d3.select("#stacked-area-chart").append("svg");
+                var svg = chart.attr("width", width + margin.left + margin.right)
+                               .attr("height", height + margin.top + margin.bottom)
+                               .append("g")
+                               .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
                 // area generator
                 var area = d3.area()
                     .x(function(d, i) { return xScale(d.data.date); })
                     .y0(function(d) { return yScale(d[0]); })
                     .y1(function(d) { return yScale(d[1]); })
-                    .curve(d3.curveCatmullRom.alpha(0.5));
 
                 var stack = d3.stack().keys(['bytesSent', 'bytesReceive']);
+
                 var stackedSeries = stack(dataSet);
 
-                //creating paths
-                var area = svg.append('g').selectAll('path')
+                svg.selectAll('path')
                       .data(stackedSeries)
                       .enter()
-                      .append('g')
                       .append('path')
                       .style('fill', function(d) { return d.key === 'bytesSent' ? '#00edfc': '#00b4e8';  })
                       .attr('d', area)
 
+                //points
+                var points = svg.selectAll('.dots')
+                    .data(stackedSeries)
+                    .enter()
+                    .append("g")
+                    .attr("class", "dots")
+                    .attr("d", area)
+
+                // creating dots
+                points.selectAll('.dot')
+                    //.data(stackedSeries)
+                    .data(function(d, index){
+                          let i = index;
+                          var a = [];
+                          d.forEach(function(point,index){
+                              a.push({'index': i, 'point': point});
+                          });     
+                          return a;
+                    })
+                    .enter()
+                    .append('circle')
+                    .attr('class','dot')
+                    .attr("r", 2.5)
+                    .attr('fill', function(d,i){
+                        return '#abc';
+                    })  
+                    .attr("transform", function(d) {
+                    if(d.index === 1){
+                      d.point[1] = d.point[1] - d.point[0];
+                    }
+
+                    var key = xScale(d.point.data.date);
+                    dataPoints[key] = dataPoints[key] || [];
+                    dataPoints[key].push(d);
+                    return "translate(" + xScale(d.point.data.date) + "," + yScale((d.point[0] + d.point[1])) + ")"; 
+                    });
+
+                //vertical line
+                var vertline = svg.append('line')
+                  .attr('class','vertline')
+                  .attr('x1',0)
+                  .attr('x2',0)
+                  .attr('y1',0)
+                  .attr('y2',height)
+                  .attr('stroke','rgba(100,150,200,0.8)')
+                  .attr('stroke-width',1);
+
+              chart.on('mousemove', function () {
+                mouseX = d3.event.pageX-margin.left;
+                vertline.attr('opacity', '1');
+                var keys = _.keys(dataPoints).sort();
+                var epsilon = (keys[1]-keys[0])/2;
+                var nearest = _.find(keys, function(a) {
+                  return Math.abs(a - mouseX) <= epsilon
+                });
+                if(nearest){
+                  var dps = dataPoints[nearest];
+                  vertline.attr('x1', nearest)
+                          .attr('x2', nearest);
+                  d3.select('.ttip-date').html(d3.timeFormat('%d %b')(new Date(dataPoints[nearest][0].point.data.date)));
+                  d3.select('.ttip-sent').html(dataPoints[nearest][0].point.data.bytesSent);
+                  d3.select('.ttip-received').html(dataPoints[nearest][0].point.data.bytesReceive);
+
+                var tooltip = d3.select('.tool-tip');
+                tooltip.style("visibility", "visible");
+                tooltip.style("top", 100+"px").style("left", nearest - 150+"px"); 
+
+                }
+              });
+
+              chart.on('mouseout', function(){
+                vertline.attr('opacity', '0');
+                var tooltip = d3.select('.tool-tip');
+                tooltip.style("visibility", "hidden");
+              })
+
+              // create xAxis
+              svg.append("g")
+                .attr("class", "axis")
+                .attr("transform", "translate(0," + height + ")")
+                .call(d3.axisBottom(xScale).tickFormat(d3.timeFormat("%d-%b")));
+
+              // create yAxis
+              svg.append("g")
+                .attr("class", "axis")
+                .call(d3.axisLeft(yScale));
+
             </script>
+
     </body>
 </html>  
