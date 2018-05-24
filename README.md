@@ -9,6 +9,9 @@ D3 charts | Data visualization
 * Simple Line
 ![Simple Line](/chart-Images/simple-line.png?raw=true "Simple Line")
 
+* Multi Line Chart
+![Simple Line](/chart-Images/multiline.png?raw=true "Simple Line")
+
 * Basic Zoom 
 ![Zoom](/chart-Images/zoom-bubble.gif?raw=true "Basic Zoom")
 
@@ -25,7 +28,7 @@ D3 charts | Data visualization
 ![Scatter Chart](/chart-Images/bubble.png?raw=true "Bubble/ Scatter Chart")
 
 * Donut Chart
-![Donut Chart](/chart-Images/donut.png?raw=true "Donut Chart")
+![Donut Chart](/chart-Images/donut-chart.png?raw=true "Donut Chart")
 
 * Semi-Donut Chart
 ![Semi-Donut Chart](/chart-Images/semi-donut.png?raw=true "Semi-Donut Chart")
