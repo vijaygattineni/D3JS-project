@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>D3 Test</title>
+        <script type="text/javascript" src="d3/d3.v4.min.js"></script>
+        <style type="text/css">
+
+        .line1 {
+          stroke: #FCA104;
+          stroke-width: 6px;
+          fill: none;
+          opacity: 0.8;
+        }
+        .line2 {
+          stroke: #5584FF;
+          stroke-width: 6px;
+          fill: none;
+          opacity: 0.8;
+        }
+        .y-axis path{
+          stroke-width: 0!important;
+        }
+        .axis path {
+            fill: none;
+            stroke: #707070;
+            stroke-width: 2;
+            shape-rendering: crispEdges;
+        }
+        .axis line {
+            fill: none;
+            stroke: #707070;
+            stroke-width: 1;
+            shape-rendering: crispEdges;
+        }
+        .axis text {
+            font-family: sans-serif;
+            font-size: 11px;
+            fill: darkgray;
+        }
+        .grid line {
+          stroke: #707070;
+          stroke-opacity: 0.7;
+          shape-rendering: crispEdges;
+          stroke-dasharray: 5,5;
+        }
+        .grid path {
+          stroke-width: 0;
+        }
+        .tool-tip {
+          position:absolute;
+          z-index:10;
+          visibility:hidden;
+          background-color: white;
+          color: black;
+          border-radius: 5px;
+          border: solid 1px;
+          font-size: 12px;
+          font-family: "Source Sans Pro", sans-serif;
+          width: 150px;
+        }
+        .tool-tip table {
+          width: 100%;
+        }
+        .ttip-div {
+          padding: 5px;
+          width: 70px;
+        }
+        </style>
+    </head>
+    <body>
+        <script>
+
+                var w = 900;
+                var h = 400;
+                var p = 90;
+                
+                var dataSet = [
+                                  [1518307200000, 300, 400],
+                                  [1518393600000, 350, 380],
+                                  [1518480000000, 100, 350],
+                                  [1518566400000, 250, 650],
+                                  [1518652800000, 600, 650],
+                                  [1518739200000, 450, 750],
+                                  [1518825600000, 200, 300],
+                                ]
+
+                // create xScale
+                var xScale = d3.scaleTime()
+                    .domain(d3.extent(dataSet, function(d) { return d[0]; }))
+                    .range([p, w - (p/2)])
+
+                // create yScale
+                var yMax = (d3.max(dataSet, function(d) { 
+                  var max = d[1] > d[2] ? d[1] : d[2];
+                  return max; }
+                ));
+                var yScale = d3.scaleLinear()
+                  .domain([0, yMax + 200])
+                  .range([h - p, 15]);
+
+                // create SVG
+                var svg = d3.select("body")
+                  .append("svg")
+                  .attr("width", w)
+                  .attr("height", h);
+
+                function make_y_gridlines() { return d3.axisLeft(yScale).ticks(5); }
+
+                // add the Y gridlines
+                svg.append("g")
+                  .attr("class", "grid")
+                  .attr("transform", "translate("+ p +", 0)")
+                  .call(make_y_gridlines()
+                    .tickSize(-(w-p-(p/2)))
+                    .tickFormat("")
+                  )
+
+                // create xAxis
+                svg.append("g")
+                  .attr("class", "axis")
+                  .attr("transform", "translate(0," + (h - p) + ")")
+                  .call(d3.axisBottom(xScale).tickFormat(d3.timeFormat("%d-%b"))
+                    .tickSizeInner(20)
+                    .tickPadding(6)
+                    .tickSize(15, 0));
+
+                // create yAxis
+                svg.append("g")
+                  .attr("class", "y-axis axis")
+                  .attr("transform", "translate(" + p + ", 0)")
+                  .call(d3.axisLeft(yScale).ticks(5).tickFormat(function(d){ return d;})
+                        .tickSize(0, 0));
+
+                //d3 line generator
+                var line = d3.line()
+                  .x(function (d) { return xScale(d[0]) })
+                  .y(function (d) { return yScale(d[1]) })
+
+                svg.append("path")
+                  .datum(dataSet)
+                  .attr("class", "line1")
+                  .attr("d", line);
+
+                var line2 = d3.line()
+                  .x(function (d) { return xScale(d[0]) })
+                  .y(function (d) { return yScale(d[2]) })
+
+                svg.append("path")
+                  .datum(dataSet)
+                  .attr("class", "line2")
+                  .attr("d", line2);
+
+            </script>
+    </body>
+
+</html>  
