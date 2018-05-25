@@ -6,7 +6,7 @@
 * D3 Uses digital data to drive the formation, control and graphical presentation.
 
 *Why?*
-* D3 an is open source an exteremely helpful in viewing huge data & data visualization is best way to understand, represent & analyze.
+* D3 is an open source, an exteremely helpful in viewing huge data & data visualization is best way to understand, represent & analyze.
 
 In this project I created few d3 basic shapes & charts as listed below using d3 version 3 | d3 version 4.
 
