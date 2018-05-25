@@ -1,5 +1,5 @@
 # D3js-project
-D3 is a javascript library for creating interactive, dynamic data visualizations in browser. It uses digital data to drive the formation and control and graphical presentation.
+D3 is a javascript library for creating interactive, dynamic data visualizations in browser. It uses digital data to drive the formation, control and graphical presentation.
 
 
 D3 charts | Data visualization
