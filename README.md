@@ -8,9 +8,8 @@
 *Why?*
 * D3 an is open source an exteremely helpful in viewing huge data & data visualization is best way to understand, represent & analyze.
 
-In this project I created few d3 basic shapes & charts using d3 v3 | d3 v4.
+In this project I created few d3 basic shapes & charts as listed below using d3 version 3 | d3 version 4.
 
-D3 charts | Data visualization
 * Linking Nodes
 ![Linking Nodes](/chart-Images/link.png?raw=true "Linking Nodes")
 
