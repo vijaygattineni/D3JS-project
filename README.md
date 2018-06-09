@@ -28,11 +28,17 @@ In this project I created few d3 basic shapes & charts as listed below using d3 
 * Simple Area
 ![Simple Area](/chart-Images/area.png?raw=true "Simple Area")
 
+* Gradient Area
+![Gradient Area](/chart-Images/gradient-area.png?raw=true "Gradient Area")
+
 * Stacked Area
 ![Simple Area](/chart-Images/stacked-area.png?raw=true "Stacked Area")
 
 * Bar Chart
 ![Bar Chart](/chart-Images/bar.png?raw=true "Bar Chart")
+
+* Grouped Bar Chart
+![Bar Chart](/chart-Images/grouped-bar.png?raw=true "Bar Chart")
 
 * Bubble/ Scatter Chart
 ![Scatter Chart](/chart-Images/bubble.png?raw=true "Bubble/ Scatter Chart")
