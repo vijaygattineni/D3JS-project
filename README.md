@@ -8,6 +8,8 @@
 *Why?*
 * D3 is an open source, an exteremely helpful in viewing huge data & data visualization is best way to understand, represent & analyze.
 
+You can find a sample explination on http://commandstech.com/data-visualization-using-d3js/ 
+
 In this project I created few d3 basic shapes & charts as listed below using d3 version 3 | d3 version 4.
 
 * Linking Nodes
