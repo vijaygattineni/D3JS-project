@@ -39,6 +39,11 @@ In this project I created few d3 basic shapes & charts as listed below using d3 
 * Bar Chart
 ![Bar Chart](/chart-Images/bar.png?raw=true "Bar Chart")
 
+
+* Matrix/Heatmap Chart
+![Bar Chart](/chart-Images/matrix.png?raw=true "Bar Chart")
+
+
 * Grouped Bar Chart
 ![Bar Chart](/chart-Images/grouped-bar.png?raw=true "Bar Chart")
 

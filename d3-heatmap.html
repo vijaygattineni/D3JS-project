@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<script src="https://d3js.org/d3.v3.js"></script>
+<div id="wrapper"></div>
+<script>
+
+    // set the dimensions and margins of the graph
+    var margin = { top: 30, right: 30, bottom: 30, left: 30 },
+      width = 400 - margin.left - margin.right,
+      height = 400 - margin.top - margin.bottom;
+
+    // append the svg object to the body of the page
+    document.getElementById('wrapper').innerHTML = '';
+
+    var svg = d3.select('#wrapper')
+      .append('svg')
+      .attr('width', width + margin.left + margin.right)
+      .attr('height', height + margin.top + margin.bottom)
+      .append('g')
+      .attr('transform',
+        'translate(' + margin.left + ',' + margin.top + ')');
+
+    var myGroups = ['1', '2', '3', '4', '5','6','7','8','9','10'];
+    var myVars = ['1', '2', '3', '4', '5','6','7','8','9','10'];
+
+    // Build X scales and axis:
+
+    var x = d3.scale.ordinal().domain(myGroups).rangeBands([0, width]);
+    var y = d3.scale.ordinal().domain(myVars).rangeBands([height, 0]);
+
+    var myColor = d3.scale.linear()
+      .domain([0, 5, 9])
+      .range(['red', 'yellow', 'green']);
+
+	test="5780162349543098654101047292671437850591624376495026132449860785634265960428459340892510483479467353"
+	test = test.split("")
+    var data = [];
+    var ind = 0;
+    for (let i = 1; i <= 10; i++) {
+      for (let j = 1; j <= 10; j++) {
+        data.push({ 'group': i, 'variable': j, 'value': test[ind] })
+        ind++;
+      }
+    }
+
+    svg.selectAll()
+      .data(data, function (d) { return d.group + ':' + d.variable; })
+      .enter()
+      .append('rect')
+      .attr('x', function (d) { return x(d.group) })
+      .attr('y', function (d) { return y(d.variable) })
+      .attr('width', x.rangeBand())
+      .attr('height', y.rangeBand())
+      .style('fill', function (d) { return myColor(d.value) })
+</script>
